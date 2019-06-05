@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h3 class="my-3 text-danger" style="font-weight: 400;">Delete "{{ blog.title }}"</h3>
+    <hr>
+    <form action="." method="POST">
+        {% csrf_token %}
+        <p>Are you sure you want to delete "{{ blog.title }}"? </p>
+        <input type="submit" value="Delete" class="btn btn-danger btn-sm">
+        <a href="{% url 'blog:home' %}" class="btn btn-secondary btn-sm">Cancel</a>
+    </form>
+
+
+{% endblock content %}

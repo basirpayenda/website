@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<div class="user-form">
+        <div class="card">
+            <div class="card-body">
+                <h2 class='text-center'> <i class="fas fa-user-plus"></i>  Create an account</h2>
+                <hr>
+                <form action="." method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="submit" value="Sign up" class="btn btn-warning btn-block">
+                    <hr>
+                    <small class="text-secondary">Already have an account? <a href="{% url 'user:login' %}">Login</a> </small>   
+                </form>        
+            </div>
+        </div>
+</div>
+
+{% endblock content %}

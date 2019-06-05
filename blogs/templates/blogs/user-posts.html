@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block homeLink %}
+ active
+{% endblock homeLink %}
+{% load static %}
+{% block styler %}
+<style>
+body{
+    background-color:#fff;
+}
+</style>
+
+{% endblock styler %}
+
+
+{% block content %}
+
+<div class="row my-3">
+    <div class="col-8">
+        {% include 'includes/messages.html' %}
+        {% for blog in blogs %}
+        <div class="card my-3">
+            <div class="card-body">
+                <img src="{{ blog.author.profile.image.url }}" class="profile-pic-sm" alt="">
+                <span>
+                    <span class="user-name"><a href="{% url 'blog:user_post' blog.author.username %}"> {{ blog.author.username|title }}</a></span> <small class="text-secondary">, {{ blog.author.profile.introduction|lower }}</small>  <br>
+                    <small class="text-secondary"> <i class="far fa-clock"></i> {{ blog.created_at|timesince }} ago <i class="fa fa-eye"></i> views: {{ blog.blog_views }} </small>
+                    <div class="" style="clear:both;"></div>
+                </span>
+                <hr>
+                <div class="row">
+                    <h5 class="card-title text-primary ml-3">
+                        <a href="{{ blog.get_absolute_url }}"> {{ blog.title }}</a>
+                    </h5> 
+                    <div class="col-9">
+
+                        <p>{{blog.overview}}</p>
+                        <a href="{% url 'blog:blog_detail' blog.slug %}" class="text-primary">(read more)</a>
+                    </div>
+                    <div class="col-3">
+                        <img src="{{ blog.thumbnail.url }}" class="w-100" alt="" style="border-radius:12px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% include 'blogs/includes/pagination.html' %}
+    </div>
+    <div class="col-4">
+        <div class="card my-3">
+                <img class="card-img-top" src="{{ author.profile.image.url }}" alt="Card image">
+            <div class="card-body">
+                <span class="card-title" style="font-size: 1rem;"> <strong>Author: </strong> {{ author.username }}</span> <br>
+                <span class="card-text mb-4"> <strong> <i class="fa fa-info"></i> Intro: </strong>  {{author.profile.introduction}}</span><br>
+                <hr>
+                <small class="text-secondary">{{ author.profile.description }}</small><br>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body">
+                <h3 class="mb-2"> <i class="fa fa-search"></i> Search posts</h3>
+                <form action="{% url 'blog:search_blogs' %}">
+                    {% csrf_token %}
+                    <input type="text" name="q" placeholder="Search blogs here" class="form-control">
+                    <input type="submit" class="btn btn-primary btn-sm my-3" value="Search">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of first row -->
+
+{% endblock content %}

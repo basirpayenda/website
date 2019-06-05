@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load highlight_search %}
+
+{% block title %}
+    {{ query }} results
+{% endblock title %}
+
+{% block styler %}
+<style>
+    .highlight{
+        background-color: yellow;
+    }
+</style>
+{% endblock styler %}
+
+{% block content %}
+
+<div class="card mt-3 bg-secondary text-white">
+    <div class="card-body">
+        <h3>Results for "{{query}}"</h3>
+    </div>
+</div>
+
+<hr>
+{% for result in results %}
+<div class="card my-3 px-3">
+    <div class="card-body">
+        <h3 class="card-title">
+            <a href="{{ result.get_absolute_url }}">
+                {{ result.title|highlight_search:query }}
+            </a>
+        </h3>
+        <small class="text-secondary">By {{ result.author }} <i class="fa fa-clock-o"></i> {{ result.created_at|timesince }} ago </small>
+        <hr>
+        <p>{{ result.overview|highlight_search:query }}</p>
+        <a href="{{ result.get_absolute_url }}" class="btn btn-secondary btn-sm">(read more)</a>
+    </div>
+</div>
+{% endfor %}
+{% endblock content %}
+
+
