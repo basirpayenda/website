@@ -22,7 +22,7 @@ def get_category_count():
 def home(request):
     subscribe_form = EmailSignupForm()
     queryset = Blog.objects.filter(featured=True).order_by('-created_at')
-    latest = Blog.objects.filter(featured=True)
+    latest = Blog.objects.filter(blog_views__gte=5)
     page = request.GET.get('page', 1)
     paginator = Paginator(queryset, 5)
 
@@ -43,11 +43,12 @@ def home(request):
     }
     return render(request, 'blogs/home.html', context)
 
+
 def blogs(request):
     subscribe_form = EmailSignupForm()
     queryset = Blog.objects.all().order_by('-created_at')
     page = request.GET.get('page', 1)
-    paginator = Paginator(queryset, 5)
+    paginator = Paginator(queryset, 4)
 
     try:
         blogs = paginator.page(page)
@@ -59,7 +60,8 @@ def blogs(request):
     context = {
         'blogs':blogs,
         'title':'blogs list',
-        'subscribe_form': subscribe_form
+        'subscribe_form': subscribe_form,
+        'categories': get_category_count()
     }
     return render(request, 'blogs/blogs.html', context)
 
@@ -72,7 +74,12 @@ def blog_detail(request, blog_slug):
         blog.save()
         request.session[session_key] = True
 
-    return render(request, 'blogs/blog-detail.html', {'blog':blog})
+    context = {
+        'blog': blog,
+        'categories': get_category_count()
+    }
+
+    return render(request, 'blogs/blog-detail.html', context)
 
 
 @login_required
@@ -87,8 +94,10 @@ def blog_create(request):
     form = BlogForm()
     context = {
         'form':form,
+        'categories': get_category_count()
     }
     return render(request, 'blogs/form.html', context)
+
 
 @login_required
 def blog_update(request, blog_slug):
@@ -112,9 +121,11 @@ def blog_update(request, blog_slug):
     title = blog.title
     context= {
         'form': form,
-        'form_data': title
+        'form_data': title,
+        'categories': get_category_count()
     }
     return render(request, 'blogs/update-form.html', context)
+
 
 @login_required
 def blog_delete(request, blog_slug):
@@ -125,6 +136,11 @@ def blog_delete(request, blog_slug):
     if request.method == 'POST':
         blog.delete()
         return redirect('/')
+
+    context = {
+        'blog':blog,
+        'categories': get_category_count()
+    }
     return render(request, 'blogs/blog-delete.html', {'blog':blog})
 
 
@@ -137,7 +153,8 @@ def search_view(request):
 
     context = {
         'results':queryset,
-        'query':q
+        'query':q,
+        'categories': get_category_count()
     }
     return render(request, 'blogs/search-results.html', context)
 
@@ -159,13 +176,14 @@ def user_profile(request, author):
     context = {
         'blogs' : blogs,
         'author' : user,
+        'categories': get_category_count()
     }
     return render(request, 'blogs/user-posts.html',context)
 
 
 def category_blogs(request, category_name):
     subscribe_form = EmailSignupForm()
-    queryset = Blog.objects.filter(category__title = category_name)
+    queryset = Blog.objects.filter(category__title = category_name).order_by('-created_at')
     paginator = Paginator(queryset, 5)
     page = request.GET.get('page')
 
@@ -179,7 +197,8 @@ def category_blogs(request, category_name):
     context = {
         'blogs': blogs,
         'categories':get_category_count(),
-        'subscribe_form': subscribe_form
+        'subscribe_form': subscribe_form,
+        'categories': get_category_count()
 
     }
     return render(request, 'blogs/category-blogs.html', context)

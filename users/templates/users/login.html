@@ -1,14 +1,23 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-
+{% block styler %}
+    <style>
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+    </style>
+{% endblock styler %}
 
 {% block content %}
-<div class="user-form">
-    <div class="card w-50">
-        <div class="card-body">
-            {% include 'includes/messages.html' %}
+
+<div class="row">
+    <div class="section mx-auto mt-5 col-sm-12 col-md-6">
+        <div class="section-body">
             <h3> <i class="fas fa-sign-in-alt"></i> Login</h3>
             <hr>
+            {% include 'includes/messages.html' %}
             <form action="." method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form|crispy }}
@@ -20,5 +29,4 @@
         </div>
     </div>
 </div>
-
 {% endblock content %}

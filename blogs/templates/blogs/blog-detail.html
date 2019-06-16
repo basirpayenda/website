@@ -8,49 +8,36 @@
 
 <div class="card my-3 px-3">
     <div class="card-body">
-        <h3 class="card-title">
-            {{blog.title}}
-        </h3>  <small class="text-secondary"> <i class="fa fa-user"></i> By: {{ blog.author }} <i class="fa fa-clock"></i>  {{ blog.created_at|timesince }} ago <i class="fa fa-eye"></i>  views: {{ blog.blog_views }} </small><br>
-
-        {% if blog.author.username == user.username %}
+        <img src="{{ blog.author.profile.image.url }}" class="profile-pic-sm mb-2" alt="">
+        <span>
+            <span class="user-name"> <span class="text-secondary"> Author:</span> <a href="{% url 'blog:user_post' blog.author.username %}"> {{ blog.author.username|title }}</a></span> <br>
+            <small class="text-secondary"> {{ blog.author.profile.introduction|title }}</small>
+        </span>
+        <hr>
+        <h5 class="card-title text-primary">
+            <a href="{{ blog.get_absolute_url }}"> {{ blog.title }}</a>
+        </h5>
+        <small class="text-secondary"> <i class="far fa-clock"></i> {{ blog.created_at|timesince }} ago | <i class="fa fa-eye"></i> views: {{ blog.blog_views }} | </small>
+        <small><i class="fas fa-tags"></i>   
+            {% for i in blog.category.all %}
+            <span class="badge badge-info">{{ i.title }}</span>
+            {% endfor %}
+        </small>        <br>
+        {% if blog.author.username == user.username or user.username == 'admin' or user.username == 'basirpayenda' %}
             <a href="{{ blog.get_update_url }}" class="btn btn-primary btn-sm mt-2"> <i class="fas fa-edit"></i> Update</a>
             <a href="{{ blog.get_delete_url }}" class="btn btn-danger btn-sm mt-2"> <i class="fa fa-trash"></i> Delete</a>
         {% endif %}
 
-        <hr>
+        <br><br>
         <img src="{{ blog.thumbnail.url }}" alt="{{ blog.thumbnail }}" class="w-100">
         <p>{{ blog.content|safe }}</p>
 
         {% if blog.documents %}
            <img src="{% static 'imgs/download.gif' %}" class="download-icon"  alt=""> <a href="{{ blog.documents.url }}" download>Download link</a>
         {% endif %}
-        
-        <!-- Go to www.addthis.com/dashboard to customize your tools -->
-        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5cebf01d06f6d3d3"></script>
 
         
-        <!-- Disqus -->
-        <div id="disqus_thread"></div>
-        <script>
-
-        /**
-        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-        *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-        /*
-        var disqus_config = function () {
-        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-        };
-        */
-        (function() { // DON'T EDIT BELOW THIS LINE
-        var d = document, s = d.createElement('script');
-        s.src = 'https://localhost-8000-0dhzwp4a33.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-        })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-                                    
+               
     </div>
 </div>
 

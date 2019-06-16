@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'marketing',
     'django.contrib.humanize',
     'tinymce',
+    'contact',
 ]
 
 MIDDLEWARE = [
@@ -158,8 +159,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 EMAIL_HOST_USER = 'basirrpayenda@gmail.com'
 EMAIL_HOST_PASSWORD = 'password@123.com'
+
 
 MAILCHIMP_API_KEY = 'd59b38ae7949932ef45162583dd0eaec-us20'
 MAILCHIMP_DATA_CENTER = 'us20'

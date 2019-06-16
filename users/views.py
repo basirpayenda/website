@@ -16,8 +16,8 @@ def signup_view(request):
             username = signup_form.cleaned_data.get('username')
             messages.success(request, f'Thank you for using our website. <br> <strong> You\'re amazing! <br> </strong> Now you can login as {username}!')
             return redirect('user:login')
-
-    signup_form = UserRegistrationForm()
+    else:
+        signup_form = UserRegistrationForm()
     context = {
         'form':signup_form
     }
@@ -34,8 +34,8 @@ def login_view(request):
                 login(request, user)
                 messages.success(request, f'Successfully logged in as <strong> {username} </strong> ')
                 return redirect('blog:blogs')
-
-    login_form = AuthenticationForm()
+    else:
+        login_form = AuthenticationForm()
     context = {
         'form': login_form
     }

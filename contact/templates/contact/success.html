@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<div class="alert alert-success mt-5">
+    Mail sent successfully, thank you for taking care!
+</div>
+
+<a href="{% url 'blog:home' %}" class="btn btn-secondary">Cancel</a>
+
+{% endblock content %}

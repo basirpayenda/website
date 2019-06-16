@@ -1,0 +1,13 @@
+
+{% load crispy_forms_tags %}
+
+<div class="section-con">
+    <div class="section-con-body">
+        <h3 class="mb-2"> <i class="fa fa-search"></i> Search posts</h3>
+        <form action="{% url 'blog:search_blogs' %}">
+            {% csrf_token %}
+            <input type="text" name="q" placeholder="Search blogs here" class="form-control">
+            <input type="submit" class="btn btn-primary btn-sm my-3" value="Search">
+        </form>
+    </div>
+</div>

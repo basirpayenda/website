@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    introduction = models.CharField(max_length=150, null=True, blank= True)
+    introduction = models.CharField(max_length=150, null=True, blank= True, default=f'Apparently, this user prefers to keep an air of mystery about them.')
     image = models.ImageField(default='default.jpg', upload_to='profile_pictures')
     description = models.TextField()
     facebook = models.CharField(max_length=255, blank=True)

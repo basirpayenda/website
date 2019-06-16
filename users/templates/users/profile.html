@@ -5,19 +5,22 @@
 {% block header %}
 <!-- ! profile starts -->
 <div class="row bg-white border-bottom" style="box-shadow:0 3px 12px #f3f3f3;">
-    <div class="col-2"></div>
-    <div class="col-8">
+    <div class="col-2 hide-sm"></div>
+    <div class="col-md-8 col-sm-12">
         <div class="card" style="border: none; box-shadow: none;">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-2">
+                    <div class="col-md-2 col-sm-4">
                         <img class="w-100 profile-pic" src="{{ user.profile.image.url }}">
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-8">
                         {% include 'includes/messages.html' %}
 
-                        <h2 class="account-heading">{{ user.username|upper }} </h2>
-
+                        <div style="display:flex; justify-content:flex-start; flex-direction: column;">
+                            <h2 class="account-heading mt-3">{{ user.username|upper }} </h2>
+                            <small class="text-secondary">{{ user.profile.introduction }}</small>
+                        </div>
+                        <br>
                         {% if user.profile.description == '' %}
                         <i class="fa fa-person"></i> <a href="{% url 'user:profile_update' %}"> Add
                             description</a>
@@ -26,12 +29,11 @@
                         <small>
                             <p class="text-secondary">{{ user.profile.description }}</p>
                         </small>
-                        {% endif %}
-
-                        <a href="{% url 'user:profile_update' %}" class="btn btn-outline-success">Update</a>
+                        {% endif %} 
+                        <a href="{% url 'user:profile_update' %}" class="btn btn-outline-success btn-sm my-2">Update</a>
 
                     </div>
-                    <div class="col-4">
+                    <div class="col-md-4 col-sm-12">
                         <h4 class="border-bottom pb-2">Contacts:</h4>
                         <small class="text-secondary">
                             {% if user.email != 'None' or user.email != '' %}
@@ -68,7 +70,7 @@
             </div>
         </div>
     </div>
-    <div class="col-2"></div>
+    <div class="col-2 hide-sm"></div>
 </div>
 
 
@@ -78,31 +80,10 @@
 {% block content %}
 
 
-<div class="container w-75">
+<div class="container ">
     <br>
     {% for blog in queryset %}
-    <div class="card my-2" style="background-color:#fff;">
-        <div class="row p-3">
-            <div class="col-8">
-                <h5><a href="{% url 'blog:blog_detail' blog.slug %}">{{ blog.title }}</a></h5>
-                {% if blog.created_at == blog.updated_at %}
-                <small class="text-muted"> Posted
-                    {{ blog.created_at|naturaltime }}</small>
-                {% else %}
-                <small class="text-muted">Updated
-                    {{ blog.updated_at|naturaltime }}</small>
-                {% endif %}
-                <div class="border-bottom my-1"></div>
-                <p>{{ blog.overview | safe }}
-                    <a href="{{ blog.get_absolute_url }}">(more)</a>
-                </p>
-                <!-- <a href="{% url 'blog:blog_detail' blog.slug %}">read more</a> -->
-            </div>
-            <div class="col-4">
-                <img src="{{ blog.image.url }}" class="image_in_list mt-5" alt="">
-            </div>
-        </div>
-    </div>
+        {% include 'blogs/includes/blogs.html' %}
     {% endfor %}
 </div>
 

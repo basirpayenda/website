@@ -24,7 +24,7 @@ body{
             <div class="card-body">
                 <img src="{{ blog.author.profile.image.url }}" class="profile-pic-sm" alt="">
                 <span>
-                    <span class="user-name"><a href="{% url 'blog:user_post' blog.author.username %}"> {{ blog.author.username|title }}</a></span> <small class="text-secondary">, {{ blog.author.profile.introduction|lower }}</small>  <br>
+                    <span class="user-name"> <span class="text-secondary"> Author:</span> <a href="{% url 'blog:user_post' blog.author.username %}"> {{ blog.author.username|title }}</a></span> <small class="text-secondary">, {{ blog.author.profile.introduction|lower }}</small>  <br>
                     <small class="text-secondary"> <i class="far fa-clock"></i> {{ blog.created_at|timesince }} ago <i class="fa fa-eye"></i> views: {{ blog.blog_views }} </small>
                     <div class="" style="clear:both;"></div>
                 </span>

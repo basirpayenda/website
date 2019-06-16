@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block contact-active %}
+active
+{% endblock contact-active %}
+
+{% block content %}
+<div class="row">
+    <div class="section mx-auto mt-5 col-sm-12 col-md-6">
+        <div class="section-body">
+            <h3> <i class="fa fa-phone"></i> Contact</h3>
+            <hr>
+            <form action="." method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <input type="submit" value="Send" class="btn btn-success btn-sm btn-block">
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <a href="{% url 'blog:home'  %}" class="btn btn-secondary btn-sm btn-block">Cancel</a>
+                    </div>
+                </div>
+            </form>        
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
